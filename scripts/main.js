@@ -9,10 +9,6 @@ const printerror = document.querySelector(".error");
 const printPerso = document.querySelector(".perso");
 const btnCreate = document.querySelector(".create");
 const btnAll = document.querySelector(".menu");
-// const btnShout = document.querySelector(".shout");
-// const btnPotions = document.querySelector(".potions");
-// const btnAttack = document.querySelector(".attack");
-// const btnMagic = document.querySelector(".attackMagic");
 const figther = document.getElementById("figther");
 const defender = document.getElementById("defender");
 const dialogue = document.querySelector(".dialogue")
@@ -29,6 +25,8 @@ class Chevalier {
 		this.life = 100;
 		this.mana = 50;
 		this.potions = 2;
+		this.manaBar = 0;
+		this.lifeBar = 0;
 	}
 	shout() {
 		if (this.isDead()) {
@@ -61,6 +59,7 @@ class Chevalier {
 			if (this.mana >= 20) {
 				let hpLeft = cible.getDamages(this.magic);
 				this.mana -= 20;
+				this.manaBar = 100 - (this.mana * 2);
 				return (`${this.name}: my esoteric magic get you to ${hpLeft}hp`);
 			}
 			else {
@@ -73,6 +72,7 @@ class Chevalier {
 		if (this.life < 0) {
 			this.life = 0;
 		}
+		this.lifeBar = 100 - this.life;
 		return (this.life);
 	}
 	usePotion() {
@@ -91,6 +91,7 @@ class Chevalier {
 			if (this.life >= 100) {
 				this.life = 100;
 			}
+			this.lifeBar = 100 - this.life;
 			return (`${this.name}: this divine nectar get me to ${this.life}hp`)
 		}
 	}
@@ -177,8 +178,9 @@ function createStat(knight, stat) {
 	<div class="persoinfo">strenght: ${knight.strength}</div>
 	<div class="persoinfo">magic: ${knight.magic}</div>
 	<div class="persoinfo">life: ${knight.life}</div>
-    <div class="lifeBar"><div class="lifeLeft"></div></div>
+    <div class="lifeBar"><div class="lifeLeft" style="width: ${knight.lifeBar}%;"></div></div>
 	<div class="persoinfo">mana: ${knight.mana}</div>
+	<div class="manaBar"><div class="manaLeft" style="width: ${knight.manaBar}%;"></div></div>
 	<div class="persoinfo">potions: ${knight.potions}</div>`;
 }
 
@@ -187,6 +189,13 @@ function resetvalue() {
 	strengthInput.value = '';
 	magicInput.value = '';
 	nameInput.select();
+}
+
+function deadPlayer() {
+	if (tabKnight[defender.value].isDead()) {
+		const addDead = document.querySelector(`.card[data-index="${defender.value}"] .img`);
+		addDead.innerHTML = `<div class="isDead">`;
+	}
 }
 
 // ==============================
@@ -218,9 +227,7 @@ btnAll.addEventListener("click", (e) => {
 					displaytxt(tabKnight[figther.value].attack(tabKnight[defender.value]))
 					const newStat = document.querySelector(`.card[data-index="${defender.value}"] .stat`);
 					createStat(tabKnight[defender.value], newStat);
-					const life = document.querySelector(`.card[data-index="${defender.value}"] .stat .lifeLeft`);
-					const lifeLeft = 100 - tabKnight[defender.value].life;
-					life.style.width = `${lifeLeft}%`;
+					deadPlayer();
 				}
 				else {
 					displayError("a other defender must be choose");
@@ -228,17 +235,22 @@ btnAll.addEventListener("click", (e) => {
 				break;
 			}
 			case ("attackMagic"): {
-				console.log("yo");
 				if (defender.value != '' && defender.value != figther.value) {
+					// stat modif
 					displaytxt(tabKnight[figther.value].magicAttack(tabKnight[defender.value]))
-					const newStat = document.querySelector(`.card[data-index="${defender.value}"] .stat`);
-					createStat(tabKnight[defender.value], newStat);
-					const life = document.querySelector(`.card[data-index="${defender.value}"] .stat .lifeLeft`);
-					const lifeLeft = 100 - tabKnight[defender.value].life;
-					life.style.width = `${lifeLeft}%`;
+					// change stat html defenser
+					const newStatDef = document.querySelector(`.card[data-index="${defender.value}"] .stat`);
+					createStat(tabKnight[defender.value], newStatDef);
+					// change stat html figther needed for mana
+					const newStatAtt = document.querySelector(`.card[data-index="${figther.value}"] .stat`);
+					createStat(tabKnight[figther.value], newStatAtt);
+					// add death background
+					deadPlayer();
+
 				}
 				else {
 					displayError("a other defender must be choose");
+
 				}
 				break;
 			}
@@ -246,9 +258,6 @@ btnAll.addEventListener("click", (e) => {
 				displaytxt(tabKnight[figther.value].usePotion());
 				const newStat = document.querySelector(`.card[data-index="${figther.value}"] .stat`);
 				createStat(tabKnight[figther.value], newStat);
-				const life = document.querySelector(`.card[data-index="${defender.value}"] .stat .lifeLeft`);
-				const lifeLeft = 100 - tabKnight[defender.value].life;
-				life.style.width = `${lifeLeft}%`;
 				break;
 			}
 		}

@@ -1,12 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Metamorphous&display=swap');
+
 body {
 	background-image: url(./../img/téléchargement.jpeg);
+	font-family: "Metamorphous", serif;
+}
+
+form {
+	margin: 1rem 0;
+	text-align: center;
+	input, button {
+		padding: .4rem;
+		background-color: #d8c78f;
+		border: solid 3px #3d1214;
+		color: #222;
+	}
+}
+
+.select {
+	text-align: center;
+	select {
+		background-color: #d8c78f;
+		border: solid 3px #3d1214;
+		color: #222;
+		padding: 5px;
+	}
+}
+
+.menu {
+	text-align: center;
+	margin: 1rem 0;
+	button {
+		background-color: #d8c78f;
+		border: solid 3px #3d1214;
+		color: #222;
+		font-weight: bold;
+	}
 }
 
 .perso {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(5, 1fr);
 	justify-items: center;
-	gap: 1rem;
+	gap: 3rem;
+	margin: 3rem 0;
 }
 
 .card{
@@ -21,6 +57,30 @@ body {
 	text-align: center;
 	font-size: 1.5rem;
 }
+
+.error {
+	width: 60%;
+	// height: 50px;
+	background-color: #d8c78f;
+	border: solid 3px #3d1214;
+	margin: 0 auto 1rem;
+	color: red;
+	text-align: center;
+}
+
+.dialogue {
+	width: 60%;
+	height: 50px;
+	background-color: #d8c78f;
+	border: solid 3px #3d1214;
+	color: #222;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+// Bar card
 
 .lifeBar {
 	height: 6px;
@@ -39,6 +99,27 @@ body {
 	right: 0;
 	background-color: #000;
 }
+
+.manaBar {
+	height: 6px;
+	width: 80%;
+	background-color: rgb(32, 32, 218);
+	border: solid 2px #3d1214;
+	margin: auto;
+	position: relative;
+}
+
+.manaLeft {
+	width:0%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: #000;
+}
+
+
+// img card
 
 .img {
 	position: relative;
@@ -75,4 +156,24 @@ body {
 }
 .perso5 {
 	background-image: url(./../img/zkay_11-hollow-knight2.gif);
+}
+
+.isDead {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #0005;
+	z-index: 10;
+}
+
+.isDead::after {
+	content:'Dead';
+	position: absolute;
+	color: red;
+	top: 50%;
+	left: 50%;
+	transform: rotate(45deg) translate(-60%);
+	font-size: 4rem;
 }

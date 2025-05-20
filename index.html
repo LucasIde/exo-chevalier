@@ -14,12 +14,14 @@
         <input type="number" name="" class="magic">
         <button class="create">New Character</button>
     </form>
-    <select name="" id="figther">
-        <option value="" selected disabled>Choose a figther</option>
-    </select>
-    <select name="" id="defender">
-        <option value="" selected disabled>choose a defender</option>
-    </select>
+    <div class="select">
+        <select name="" id="figther">
+            <option value="" selected disabled>Choose a figther</option>
+        </select>
+        <select name="" id="defender">
+            <option value="" selected disabled>choose a defender</option>
+        </select>
+    </div>
     <div class="menu">
         <button class="shout">Shout your name</button>
         <button class="potions">Drink a potion</button>
@@ -28,21 +30,6 @@
     </div>
     <div class="error"></div>
     <div class="dialogue"></div>
-    <div class="perso">
-        <div class="card">
-            <div class="img perso1"></div>
-            <div class="stat">
-                <div class="persoinfo">name: knight</div>
-                <div class="persoinfo">strenght: 100</div>
-                <div class="persoinfo">magic: 50</div>
-                <div class="persoinfo">life: 100</div>
-                <div class="lifeBar">
-                    <div class="lifeLeft"></div>
-                </div>
-                <div class="persoinfo">mana: 50</div>
-                <div class="persoinfo">potions: 2</div>
-            </div>
-        </div>
-    </div>
+    <div class="perso"></div>
 </body>
 </html>

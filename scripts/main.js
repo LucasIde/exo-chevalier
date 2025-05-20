@@ -102,6 +102,7 @@ class Chevalier {
 const tabKnight = [];
 
 let timeout;
+let timeoutError;
 
 // ==============================
 // 🎊 Fonctionnalités
@@ -121,9 +122,9 @@ function checkname() {
 }
 
 function displayError(str) {
-    clearTimeout(timeout);
+    clearTimeout(timeoutError);
 	printerror.innerHTML = str;
-    timeout = setTimeout(`printerror.innerHTML = ""`, 3000);
+    timeoutError = setTimeout(`printerror.innerHTML = ""`, 3000);
 }
 
 function displaytxt(str) {
@@ -138,7 +139,7 @@ function createKnight() {
 		const knight = new Chevalier(nameInput.value, strengthInput.value, magicInput.value);
 		tabKnight.push(knight);
 		createOption(tabKnight.length-1);
-		createKnightHTML(knight);
+		createKnightHTML(knight, tabKnight.length-1);
 	}
 	else {
 		displayError("only one knight can have this name !");
@@ -154,7 +155,7 @@ function createOption(index) {
 	defender.append(option);
 }
 
-function createKnightHTML(knight) {
+function createKnightHTML(knight, index) {
 	const card = document.createElement('div');
 	const img = document.createElement('div');
 	const stat = document.createElement('div');
@@ -162,24 +163,30 @@ function createKnightHTML(knight) {
 	const perso = "perso" + rand;
 
 	card.className = `card`;
-	// card.setAttribute("data-index", index);
+	card.setAttribute("data-index", index);
 	img.className = `img ${perso}`;
 	stat.className = `stat`;
+	createStat(knight, stat);
+	card.append(img, stat);
+	printPerso.append(card);
+}
+
+function createStat(knight, stat) {
 	stat.innerHTML = `
 	<div class="persoinfo">name: ${knight.name}</div>
 	<div class="persoinfo">strenght: ${knight.strength}</div>
 	<div class="persoinfo">magic: ${knight.magic}</div>
 	<div class="persoinfo">life: ${knight.life}</div>
+    <div class="lifeBar"><div class="lifeLeft"></div></div>
 	<div class="persoinfo">mana: ${knight.mana}</div>
 	<div class="persoinfo">potions: ${knight.potions}</div>`;
-	card.append(img, stat);
-	printPerso.append(card);
 }
 
 function resetvalue() {
 	nameInput.value = '';
 	strengthInput.value = '';
 	magicInput.value = '';
+	nameInput.select();
 }
 
 // ==============================
@@ -199,13 +206,55 @@ btnCreate.addEventListener("click", (e) => {
 })
 
 btnAll.addEventListener("click", (e) => {
-	switch(e.target.className) {
-		case ("shout"): {
-			displaytxt(tabKnight[figther.value].shout());
+	if (figther.value) {
+		switch(e.target.className) {
+			case ("shout"): {
+				displaytxt(tabKnight[figther.value].shout());
+				break;
+			}
+			case ("attack"): {
+				console.log("yo");
+				if (defender.value != '' && defender.value != figther.value) {
+					displaytxt(tabKnight[figther.value].attack(tabKnight[defender.value]))
+					const newStat = document.querySelector(`.card[data-index="${defender.value}"] .stat`);
+					createStat(tabKnight[defender.value], newStat);
+					const life = document.querySelector(`.card[data-index="${defender.value}"] .stat .lifeLeft`);
+					const lifeLeft = 100 - tabKnight[defender.value].life;
+					life.style.width = `${lifeLeft}%`;
+				}
+				else {
+					displayError("a other defender must be choose");
+				}
+				break;
+			}
+			case ("attackMagic"): {
+				console.log("yo");
+				if (defender.value != '' && defender.value != figther.value) {
+					displaytxt(tabKnight[figther.value].magicAttack(tabKnight[defender.value]))
+					const newStat = document.querySelector(`.card[data-index="${defender.value}"] .stat`);
+					createStat(tabKnight[defender.value], newStat);
+					const life = document.querySelector(`.card[data-index="${defender.value}"] .stat .lifeLeft`);
+					const lifeLeft = 100 - tabKnight[defender.value].life;
+					life.style.width = `${lifeLeft}%`;
+				}
+				else {
+					displayError("a other defender must be choose");
+				}
+				break;
+			}
+			case ("potions"): {
+				displaytxt(tabKnight[figther.value].usePotion());
+				const newStat = document.querySelector(`.card[data-index="${figther.value}"] .stat`);
+				createStat(tabKnight[figther.value], newStat);
+				const life = document.querySelector(`.card[data-index="${defender.value}"] .stat .lifeLeft`);
+				const lifeLeft = 100 - tabKnight[defender.value].life;
+				life.style.width = `${lifeLeft}%`;
+				break;
+			}
 		}
-		case ("attack"): {
-			
-		}
+	}
+	else {
+		displayError("a figther must be selected");
 	}
 })
 

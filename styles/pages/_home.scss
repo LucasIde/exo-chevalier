@@ -22,6 +22,24 @@ body {
 	font-size: 1.5rem;
 }
 
+.lifeBar {
+	height: 6px;
+	width: 80%;
+	background-color: red;
+	border: solid 2px #3d1214;
+	margin: auto;
+	position: relative;
+}
+
+.lifeLeft {
+	width:0%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: #000;
+}
+
 .img {
 	position: relative;
 	width: 250px;
@@ -44,7 +62,7 @@ body {
 }
 
 .perso1 {
-	background-image: url(./../img/0d67ec139b9a5fc43df2d3fd5738c4e9.gif);
+	background-image: url(./../img/db8fmmr-2b3be258-9fc4-43a2-ba7f-d76c0c3935c3.gif);
 }
 .perso2 {
 	background-image: url(./../img/d9cweny-24fb1369-79ef-4925-a54d-31923a5dd128.gif);
@@ -53,7 +71,7 @@ body {
 	background-image: url(./../img/darksouls-knight.gif);
 }
 .perso4 {
-	background-image: url(./../img/db8fmmr-2b3be258-9fc4-43a2-ba7f-d76c0c3935c3.gif);
+	background-image: url(./../img/0d67ec139b9a5fc43df2d3fd5738c4e9.gif);
 }
 .perso5 {
 	background-image: url(./../img/zkay_11-hollow-knight2.gif);
